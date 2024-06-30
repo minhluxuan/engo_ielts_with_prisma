@@ -1,0 +1,87 @@
+POST http://localhost:3000/quiz/
+Content-Type: application/json
+
+{
+    "type": "FILLING",
+    "content": "The first time that an (1)_________ of air rage was recorded was in the 1940's, but the passenger was never actually charged for an offence because there were no clear rules in place to specify where to prosecute. It was later (2)__________ that it would be the country where the plane is registered. Air rage has (3)_________ significantly since this time, growing by a staggering 400% from 1995 to 1998. Air rage is (4)__________ to be a major problem in the future as air travel increases, as do levels of aggression. Angry (5)________ can put everyone in danger including the pilots, the crew and the other passengers, with some form of (6)_______ being the most common consequence.",
+    "skill": "LISTENING",
+    "filling": {
+        "description": [],
+        "answer": ["incident", "established", "increased", "predicted", "passengers", "assault"]
+    }
+}
+
+###
+
+POST http://localhost:3000/quiz/
+Content-Type: application/json
+
+{
+    "type": "MULTIPLE_CHOICE",
+    "content": "One of the most famous works of art in the world is Leonardo da Vinci’s Mona Lisa. Nearly everyone who goes to see the original will already be familiar with it from reproductions, but they accept that fine art is more rewardingly viewed in its original form. However, if Mona Lisa was a famous novel, few people would bother to go to a museum to read the writer’s actual manuscript rather than a printed reproduction. This might be explained by the fact that the novel has evolved precisely because of technological developments that made it possible to print out huge numbers of texts, whereas oil paintings have always been produced as unique objects. In addition, it could be argued that the practice of interpreting or ‘reading’ each medium follows different conventions. With novels, the reader attends mainly to the meaning of words rather than the way they are printed on the page, whereas the ‘reader’ of a painting must attend just as closely to the material form of marks and shapes in the picture as to any ideas they may signify.",
+    "skill": "READING",
+    "multipleChoice": {
+        "description": ["According to the passage, Monalisa is :", "Why do people want to view art in its original form?", "According to the passage, what is the difference between a novel and a painting?", "What is the difference between reading a novel and a painting?"],
+        "options": [["Da Vinci's masterpiece", "One of the famous works of art", "Just another painting", "The only work on art"], ["They can appreciate art better in its original form.", "They are tired of viewing duplicates.", "both A & B", "None of the above"], ["No difference", "Novels are unique.", "Paintings are unique objects.", "None of the above"], ["No difference", "In a novel, they have to carefully observe the way they are printed and in a painting it is just reading the meaning.", "In a painting, they have to carefully observe the way they are printed and in a novel it is just reading the meaning.", "None of the above"]],
+        "answer": ["One of the famous works of art", "They can appreciate art better in its original form.", "Paintings are unique objects.", "In a painting, they have to carefully observe the way they are printed and in a novel it is just reading the meaning."]
+    }
+}
+
+###
+
+GET http://localhost:3000/quiz
+
+###
+
+POST http://localhost:3000/test/
+Content-Type: application/json
+
+{
+    "reading": ["666b0dce70aa0157f2f23dd8"],
+    "listening": ["666b0dd670aa0157f2f23dda"]
+}
+
+###
+
+GET http://localhost:3000/test/
+
+###
+
+POST http://localhost:3000/record
+Content-Type: application/json
+
+{
+    "testId": "666b0e9370aa0157f2f23ddc",
+    "userId": "666b057cvjdfbajkdkd00900",
+    "reading": [
+        {
+            "id": "666b0dce70aa0157f2f23dd8",
+            "answer": ["One of the famous works of art",
+            "They can appreciate art better in its original form.",
+            "Paintings are unique objects.",
+            "In a painting, they have to carefully observe the way they are printed and in a novel it is just reading the meaning."]
+        }
+    ],
+    "listening": [
+        {
+            "id": "666b0dd670aa0157f2f23dda",
+            "answer": ["incident",
+            "established",
+            "increased",
+            "predicted",
+            "passengers",
+            "assault"]
+        }
+    ],
+    "writing": [],
+    "speaking": []
+}
+
+###
+
+GET http://localhost:3000/record
+Content-Type: application/json
+
+{
+    "testId": "666b057c6aaa560ba01f7ec4"
+}

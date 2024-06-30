@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum QuizType {
+  MULTIPLE_CHOICE
+  FILLING
+}
+
+enum Skill {
+  READING
+  LISTENING
+  WRITING
+  SPEAKING
+}
+
+model Quiz {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  content       String
+  type          QuizType
+  skill         Skill 
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  multipleChoice MultipleChoiceQuiz?
+  filling        FillingQuiz?
+
+  tests          TestOnQuiz[]
+}
+
+model MultipleChoiceQuiz {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  options       Json
+  description   String[]
+  answer        String[] @default([])
+
+  quizId        String   @db.ObjectId @unique
+  quiz          Quiz     @relation(fields: [quizId], references: [id])
+}
+
+model FillingQuiz {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  description   String[]
+  answer        String[] @default([])
+
+  quizId        String   @db.ObjectId @unique
+  quiz          Quiz     @relation(fields: [quizId], references: [id])
+}
+
+model Test {
+  id            String   @id @default (auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  reading       TestOnQuiz[] @relation(name: "readingTest")
+  listening     TestOnQuiz[] @relation(name: "listeningTest")
+  writing       TestOnQuiz[] @relation(name: "writingTest")
+  speaking      TestOnQuiz[] @relation(name: "speakingTest")
+}
+
+model TestOnQuiz {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  testId        String   @db.ObjectId
+  quizId        String   @db.ObjectId
+
+  quiz          Quiz?   @relation(fields: [quizId], references: [id])
+
+  readingTest   Test?   @relation(name: "readingTest", fields: [testId], references: [id])
+  listeningTest Test?   @relation(name: "listeningTest", fields: [testId], references: [id])
+  writingTest   Test?   @relation(name: "writingTest", fields: [testId], references: [id])
+  speakingTest  Test?   @relation(name: "speakingTest", fields: [testId], references: [id])
+
+  @@unique([quizId, testId])
+}
+
+model Record {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String
+  testId        String   @db.ObjectId
+
+  reading       Json
+  listening     Json
+  writing       Json
+  speaking      Json
+
+  score         Float
+}
